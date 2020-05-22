@@ -7,7 +7,7 @@ class Stock(Base):
     id = Column(Integer, primary_key=True, index=True)
     symbol = Column(String, unique=True, index=True)
     price = Column(Numeric(10,2)) # 10 digits before and 2 after dec point
-		forward_pe = Column(Numeric(10,2)) # be wary of floating calc errors
-		forward_eps = Column(Numeric(10,2))
-		ma50 = Column(Numeric(10,2))
-		ma200 = Column(Numeric(10,2)) 
+    forward_pe = Column(Numeric(10,2)) # be wary of floating calc errors
+    forward_eps = Column(Numeric(10,2))
+    ma50 = Column(Numeric(10,2))
+    ma200 = Column(Numeric(10,2)) 

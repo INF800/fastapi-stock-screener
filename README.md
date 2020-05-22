@@ -231,6 +231,8 @@ $ sqlite3 stocks.db
 // view schema for created table(s)
 sqlite> .schema
 
+...
+
 // can `select * from table-name`
 // can `insert into table-name (col-name) values ('col-value');`
 sqlite> insert into stocks (symbol) values ('AAPL');

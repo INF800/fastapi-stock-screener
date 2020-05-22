@@ -1,7 +1,13 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
+import models
+from sqlalchemy.orm import Session
+from database import SessionLocal, engine
+
+models.Base.metadata.create_all(bind=engine) #create all tables
 
 templates = Jinja2Templates(directory="templates")
+
 app = FastAPI()
 
 @app.get("/")
