@@ -420,3 +420,5 @@ but uvicorn reloads and db is populated
 **Note:** If you send json request for same stock symbol more than 1 time, we will have error as it wont be unique.
 
 ### 4. wire up ui
+
+- simple form post as in django responseapi didnt work!

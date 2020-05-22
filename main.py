@@ -71,3 +71,6 @@ def create_stock(stock_req: StockRequest, background_tasks: BackgroundTasks, db:
 	db.commit()
 	
 	background_tasks.add_task(fetch_stock_data, stock.id)
+	
+	return {"symbol": f"{stock_req.symbol}"}
+	

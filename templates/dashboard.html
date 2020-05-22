@@ -3,6 +3,17 @@
 {% block content %}
 
 <div>
+	<h3>Enter Pairs</h3>
+	<!-- POST form -->
+	<form action="http://localhost:8000/stock2" method="POST">
+  		<input type="text" name="symbol" value="GOOGL" />
+  		<input type="submit" />
+	</form>
+	<p> submit multiple times for multiple pairs</p>
+</div>
+
+<div>
+	<h3> Filter </h3>
 	<!-- for fiktering -->
 	<input type="text" placeholder="P/E"/>
 	<input type="text" placeholder="Div Yield" />
