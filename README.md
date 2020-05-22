@@ -404,4 +404,19 @@ def fetch_stock_data(pk: int):
 	db.commit()
 ```
 
+> apt install python3-lxml 
+
+- check db
+
+
+table values for different requests. note "fb" instead of "FB" raises some error 
+but uvicorn reloads and db is populated
+```
+1|AAPL|316.85|21.571623|14.73|288.25687|285.28754
+2|test|||||                                                
+3|fb|231.39|23.879713|9.81|192.61858|195.6634
+4|FB|231.39|23.874617|9.81|192.61858|195.6634
+```
+**Note:** If you send json request for same stock symbol more than 1 time, we will have error as it wont be unique.
+
 ### 4. wire up ui
