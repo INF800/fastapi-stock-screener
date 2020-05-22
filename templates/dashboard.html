@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div>
+	<!-- for fiktering -->
+	<input type="text" placeholder="P/E"/>
+	<input type="text" placeholder="Div Yield" />
+	<input type="checkbox"> <label> Above 50 day </label>
+	<input type="checkbox"> <label> Above 200 day </label>
+	<button> Filter </button>
+</div>
+
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th>Symbol</th>
+				<th>P/E</th>
+				<th>Dividend Yield</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>val1</td>
+				<td>val2</td>
+				<td>val3</td>
+			</tr>
+			<tr>
+				<td>val4</td>
+				<td>val5</td>
+				<td>val6</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}
