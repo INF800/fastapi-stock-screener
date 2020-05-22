@@ -3,13 +3,36 @@
 {% block content %}
 
 <div>
-	<h3>Enter Pairs</h3>
-	<!-- POST form -->
-	<form action="http://localhost:8000/stock2" method="POST">
-  		<input type="text" name="symbol" value="GOOGL" />
-  		<input type="submit" />
-	</form>
-	<p> submit multiple times for multiple pairs</p>
+	<h3>Enter Stocks</h3>
+	<!-- POST Data -->
+	
+	<input type="text" id="symbols" placeholder="AAPL,GOOGL,FB">
+	<input type="button" onclick="submit_post()" value="submit">
+	<p id="result">separate symbols by comas</p>
+
+	
+	
+	<script>
+	
+		function submit_post(){
+			symbols_comas = document.getElementById("symbols").value.replace(/\s/g, "")
+			symbols_lst = symbols_comas.split(",")
+			for (let i=0; i<symbols_lst.length; i++){
+				document.getElementById('result').innerHTML = symbols_lst[i]
+				
+				// jquery used only for POST. can use axios as well.
+				$.ajax({
+        	url: '/stock',
+        	type: 'POST',
+        	contentType: 'application/json',
+        	data: JSON.stringify({ "symbol": symbols_lst[i] }),
+        	dataType: 'json'
+      	});
+      	
+			}
+		}
+		
+	</script>
 </div>
 
 <div>
