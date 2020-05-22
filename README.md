@@ -235,8 +235,169 @@ sqlite> .schema
 // can `insert into table-name (col-name) values ('col-value');`
 sqlite> insert into stocks (symbol) values ('AAPL');
 sqlite> select * from stocks
+
+...
+
+// can delete using
+sqlie> delete from stocks
 ```
+we will be adding the detaiks using form
 
 ### 3. ui interact with db
 
+- wire them all together. we will dive deeper into fastapi
+- 3 main features
+	- pydantic - define structure of http requests
+	- dependency injection - to make sure we have db conn
+	- backgrounf tasks - fetch data in bg from yfinance
 
+**i. stock post request**
+
+- get stock symbol from endpoint, and insert into db.
+- we need String (Use pydantic for the req.)
+
+*main.py*:
+```
+...
+
+from pydantic import BaseModel
+
+...
+
+class StockRequest(BaseModel):
+	symbol: str
+	
+...
+
+@app.post("/stock")
+def create_stock(stock_req: StockRequest):
+	return {"test": "SUCCESS"}
+```
+
+test it using expected post req `{"symbol": "AAPL"}` and unexpected
+
+*ii. dependency injection*
+
+- to make sure we have conn to db befor create_stock func or any func executes
+
+**main.py**
+```
+from fastapi import Depends
+
+...
+
+def get_db():
+	""" returns db session """
+	
+	try:
+		db = SessionLocal()
+		yield db
+	finally:
+		db.close
+
+...
+
+# our endpoints (funcs) that use db must get db as ref
+# note: always put Depends at end of func signature. 
+
+@app.post("/stock")
+def create_stock(stock_req: Request, db: Session = Depends(get_db)):
+	
+	...
+```
+Now, you can use sqlalchemy using db "session"
+```
+from models import Stock
+
+...
+
+@app.post("/stock")
+def create_stock(StockRequest: Request, db: Session = Depends(get_db)):
+	
+	# instantiate model table and fill
+	stock = Stock()
+	stock.symbol = stock_req.symbol
+	
+	#add to db
+	db.add(stock)
+	db.commit()
+```
+
+- test using `{"symbol": "xyz"}` and check in sqlite `select * from stocks`. 
+
+Delete everything inside stocks table once you know everything is working.
+
+**iii. Fetch from yfinance**
+
+- background tasks
+- use `aync` keyword for *main func*
+
+*main.py*
+```
+from fastapi import BackgroundTasks
+
+...
+
+# define bg func (regular one)
+def fetch_stock_data(pk: int):
+	pass
+
+...
+
+# add to func signature
+# define when to kick start bg task (after adding to records)
+# note `async`
+@app.post('/stock')
+async def create_stock(stock_req: Request, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+	
+	...
+	
+	db.commit() # added to db
+	
+	background_tasks.add_task(fetch_stock_data, stock.id) # pk is id of `stock` just inserted. Note we pass pk not to actual bg func 
+```
+
+Let's define the bg func
+```
+def fetch_stock_data(pk: int):
+	db = SessionLocal() #new session create
+	stock = db.query(Stock).filter(Stock.id==id).first() # find stock using pk id. Note `Stock` used not `stock`
+	
+	#test with dummy values
+	stock.forward_pe = "123"
+	
+	#save
+	db.add(stock)
+	db.commit()
+```
+check in sqlite after sending `{"symbol": "xyz"}`
+
+Real data
+```
+import yfinance as yf
+
+...
+
+def fetch_stock_data(pk: int):
+	db = SessionLocal() #new session create
+	stock = db.query(Stock).filter(Stock.id==id).first() # find stock using pk id. Note `Stock` used not `stock`
+	
+	# yf.Ticker returns dict of lots of key-vakue pairs. we take only necessary.
+	# check pypi docs for yf
+	
+	yahoo_data = yf.Ticker(stock.symbol)
+	
+	stock.ma200 = yahoo_data.info['twoHundredDayAverage']
+	stock.ma50 = yahoo_data.info['fiftyDayAverage']
+	stock.price = yahoo_data.info['previousClose']
+	stock.forward_pe = yahoo_data.info['forwardPE']
+	stock.forward_eps = yahoo_data.info['forwardEps']
+	if yahoo_data.info['dividendYield'] is not None:
+		stock.dividend_yield = yahoo_data.info['dividendYield'] * 100
+	
+	#save
+	db.add(stock)
+	db.commit()
+```
+
+### 4. wire up ui
