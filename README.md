@@ -243,9 +243,9 @@ sqlite> select * from stocks
 // can delete using
 sqlie> delete from stocks
 ```
-we will be adding the detaiks using form
+we will be adding the details using form
 
-### 3. ui interact with db
+### 3. api interact with db
 
 - wire them all together. we will dive deeper into fastapi
 - 3 main features
@@ -276,7 +276,7 @@ def create_stock(stock_req: StockRequest):
 	return {"test": "SUCCESS"}
 ```
 
-test it using expected post req `{"symbol": "AAPL"}` and unexpected
+test it using expected post req `{"symbol": "AAPL"}` and unexpected in `/docs` "try it out"
 
 *ii. dependency injection*
 
@@ -327,7 +327,9 @@ def create_stock(StockRequest: Request, db: Session = Depends(get_db)):
 
 - test using `{"symbol": "xyz"}` and check in sqlite `select * from stocks`. 
 
-Delete everything inside stocks table once you know everything is working.
+Delete everything inside stocks table once you know everything is working. (avoids integrity errors and more).
+
+- Note that `stock` is not json. cannot return it.
 
 **iii. Fetch from yfinance**
 
