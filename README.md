@@ -334,7 +334,7 @@ Delete everything inside stocks table once you know everything is working. (avoi
 **iii. Fetch from yfinance**
 
 - background tasks
-- use `aync` keyword for *main func*
+- use `async` keyword for *main func*
 
 *main.py*
 ```
@@ -365,7 +365,7 @@ Let's define the bg func
 ```
 def fetch_stock_data(pk: int):
 	db = SessionLocal() #new session create
-	stock = db.query(Stock).filter(Stock.id==id).first() # find stock using pk id. Note `Stock` used not `stock`
+	stock = db.query(Stock).filter(Stock.id==pk).first() # find stock using pk id. Note `Stock` used not `stock`
 	
 	#test with dummy values
 	stock.forward_pe = "123"
@@ -384,7 +384,7 @@ import yfinance as yf
 
 def fetch_stock_data(pk: int):
 	db = SessionLocal() #new session create
-	stock = db.query(Stock).filter(Stock.id==id).first() # find stock using pk id. Note `Stock` used not `stock`
+	stock = db.query(Stock).filter(Stock.id==pk).first() # find stock using pk id. Note `Stock` used not `stock`
 	
 	# yf.Ticker returns dict of lots of key-vakue pairs. we take only necessary.
 	# check pypi docs for yf

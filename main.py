@@ -1,10 +1,11 @@
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, BackgroundTasks
 from fastapi.templating import Jinja2Templates
 import models
 from models import Stock
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 from pydantic import BaseModel
+import yfinance as yf
 
 app = FastAPI()
 
@@ -25,6 +26,28 @@ def get_db():
 	finally:
 		db.close
 
+# background task
+def fetch_stock_data(pk: int):
+	db = SessionLocal() #new session create
+	stock = db.query(Stock).filter(Stock.id==pk).first() # find stock using pk id. Note `Stock` used not `stock`
+	
+	# yf.Ticker returns dict of lots of key-vakue pairs. we take only necessary.
+	# check pypi docs for yf
+	
+	yahoo_data = yf.Ticker(stock.symbol)
+	
+	stock.ma200 = yahoo_data.info['twoHundredDayAverage']
+	stock.ma50 = yahoo_data.info['fiftyDayAverage']
+	stock.price = yahoo_data.info['previousClose']
+	stock.forward_pe = yahoo_data.info['forwardPE']
+	stock.forward_eps = yahoo_data.info['forwardEps']
+	if yahoo_data.info['dividendYield'] is not None:
+		stock.dividend_yield = yahoo_data.info['dividendYield'] * 100
+	
+	#save
+	db.add(stock)
+	db.commit()
+
 
 #--- routes & funcs ---#
 
@@ -39,7 +62,7 @@ def dashboard(request: Request):
 
 
 @app.post("/stock")
-def create_stock(stock_req: StockRequest, db: Session = Depends(get_db)):
+def create_stock(stock_req: StockRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
 	""" adds stocks to db """
 	stock = Stock()
 	stock.symbol = stock_req.symbol
@@ -47,7 +70,4 @@ def create_stock(stock_req: StockRequest, db: Session = Depends(get_db)):
 	db.add(stock)
 	db.commit()
 	
-	print(stock)
-	return {"status": stock}
-	
-	
+	background_tasks.add_task(fetch_stock_data, stock.id)
