@@ -217,7 +217,7 @@ import models
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine) #creates tables
 # stocks db will appear once you run uvicorn
 
 app = ...
