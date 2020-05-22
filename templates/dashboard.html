@@ -18,8 +18,8 @@
 			symbols_comas = document.getElementById("symbols").value.replace(/\s/g, "")
 			symbols_lst = symbols_comas.split(",")
 			for (let i=0; i<symbols_lst.length; i++){
-				document.getElementById('result').innerHTML = symbols_lst[i]
 				
+				/*
 				// jquery used only for POST. can use axios as well.
 				$.ajax({
         	url: '/stock',
@@ -28,7 +28,16 @@
         	data: JSON.stringify({ "symbol": symbols_lst[i] }),
         	dataType: 'json'
       	});
+      	*/
       	
+      	// axios used. same but rich features
+      	axios.post('/stock', {
+    			symbol: symbols_lst[i]
+  				})
+  				.then(function (response) {
+  					// console.log(response)
+    				// document.getElementById('result').innerHTML = response
+  				})
 			}
 		}
 		
