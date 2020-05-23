@@ -8,7 +8,7 @@
 	
 	<input type="text" id="symbols" placeholder="AAPL, GOOGL, FB">
 	<input type="button" onclick="submit_post()" value="submit">
-	<p id="result">separate symbols by comas</p>
+	<p id="result">separate symbols by comas. <br/>Refresh after submiting more than once</p>
 
 	
 	
@@ -46,6 +46,7 @@
 
 <div>
 	<h3> Filter </h3>
+	
 	<!-- for fiktering -->
 	<input type="text" placeholder="P/E"/>
 	<input type="text" placeholder="Div Yield" />
@@ -59,21 +60,26 @@
 		<thead>
 			<tr>
 				<th>Symbol</th>
-				<th>P/E</th>
+				<th>Price</th>
+				<th>MA 50 Days</th>
+				<th>MA 200 Days</th>
+				<th>Forward P/E</th>
+				<th>Forward EPS</th>
 				<th>Dividend Yield</th>
 			</tr>
 		</thead>
 		<tbody>
+			{% for record_col in stocks %}
 			<tr>
-				<td>val1</td>
-				<td>val2</td>
-				<td>val3</td>
+				<td>{{ record_col.symbol }}</td>
+				<td>{{ record_col.price }}</td>
+				<td>{{ record_col.ma50 }}</td>
+				<td>{{ record_col.ma200 }}</td>
+				<td>{{ record_col.forward_pe }}</td>
+				<td>{{ record_col.forward_eps }}</td>
+				<td>{{ record_col.dividend_yield }}</td>
 			</tr>
-			<tr>
-				<td>val4</td>
-				<td>val5</td>
-				<td>val6</td>
-			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 </div>

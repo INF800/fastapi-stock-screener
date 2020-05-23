@@ -422,9 +422,42 @@ but uvicorn reloads and db is populated
 ### 4. wire up ui
 
 - simple form post as in django responseapi didnt work!
-- 
-- POST data through api using feild
+
+**i. POST data through api using feild tobadd into db**
 		- using jquery ajax, check commit `post using js, jquery done` `635b8249d6b756142798bf25578397f3f33c5f8a`
 		- using axios, first see ajax command then check commit `post using axios` `ba7db0876a4060dc30178780232342812c5446a0`
 
-- 
+**ii. Display ALL updated db records in dashboard**
+
+*main.py*: (dashboard endpoint)
+```
+@app.get("/")
+def home(request: Request, db: Session = Depends(get_db)): #note db session added
+	
+	# get all stocks as dict
+	stocks = db.query(Stock).all()
+	
+	# return the dict
+	context = {
+		"request': request,
+		"stocks": stocks
+	}
+	
+	return templates.TemplateResponse("dashboard.html", context)
+```
+check in dashboard.html using `{{ stocks }}`
+
+*dashboard.html*:
+```
+			{% for record_col in stocks %}
+			<tr>
+				<td>{{ record_col.symbol }}</td>
+				<td>{{ record_col.price }}</td>
+				<td>{{ record_col.ma50 }}</td>
+				<td>{{ record_col.ma200 }}</td>
+				
+				...
+				
+			</tr>
+			{% endfor %}
+```

@@ -51,15 +51,23 @@ def fetch_stock_data(pk: int):
 
 #--- routes & funcs ---#
 
+
 @app.get("/")
-def dashboard(request: Request):
+def home(request: Request, db: Session = Depends(get_db)): #note db session added
 	""" for homepage i.e dashboard """
 	
+	# get all stocks as dict
+	stocks = db.query(Stock).all()
+	
+	# return the dict
 	context = {
-		"request": request
+		"request": request,
+		"stocks": stocks
 	}
+	
 	return templates.TemplateResponse("dashboard.html", context)
-
+	
+	
 
 @app.post("/stock")
 def create_stock(stock_req: StockRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
