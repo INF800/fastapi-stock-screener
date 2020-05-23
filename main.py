@@ -53,16 +53,32 @@ def fetch_stock_data(pk: int):
 
 
 @app.get("/")
-def dashboard(request: Request, db: Session = Depends(get_db)): #note db session added
+def dashboard(request: Request, forward_pe=None, ma50=None, ma200=None , db: Session = Depends(get_db)): #note db session added
 	""" for homepage i.e dashboard """
 	
 	# get all stocks as dict
-	stocks = db.query(Stock).all()
+	#stocks = db.query(Stock).all()
+	# instead of selecting all as above, 
+	# we will filter based on query params
+	stocks = db.query(Stock)
+	
+	if forward_pe:
+		stocks = stocks.filter(Stock.forward_pe < forward_pe)
+	if ma50:
+		stocks = stocks.filter(Stock.price > Stock.ma50) #note Stock.ma50 not just `ma50` 
+	if ma200:
+		stocks = stocks.filter(Stock.price > Stock.ma200)
+	
 	
 	# return the dict
 	context = {
 		"request": request,
-		"stocks": stocks
+		"stocks": stocks,
+		
+		# query params
+		"forward_pe": forward_pe,
+		"ma50": ma50,
+		"ma200": ma200
 	}
 	
 	return templates.TemplateResponse("dashboard.html", context)

@@ -84,11 +84,12 @@
 	<h3> Filter </h3>
 	
 	<!-- for fiktering -->
-	<input type="text" placeholder="P/E"/>
-	<input type="text" placeholder="Div Yield" />
-	<input type="checkbox"> <label> Above 50 day </label>
-	<input type="checkbox"> <label> Above 200 day </label>
-	<button> Filter </button>
+	<form>
+	<input type="text" name="forward_pe" placeholder="P/E" {% if forward_pe %} value={{forward_pe}} {% endif %} />
+	<input type="checkbox" name="ma50" {% if ma50 %} checked {% endif %}> <label> Above 50 day </label>
+	<input type="checkbox" name="ma200" {% if ma200 %} checked {% endif %}> <label> Above 200 day </label>
+	<input type="submit" value="Filter">
+	</form>
 </div>
 
 <div>

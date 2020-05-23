@@ -483,3 +483,62 @@ test using `docs` with `{"symbol": "JNJ"}`
 - send DELETE request to API just like we did for POST using ajax or axios (i used axios)
 - check commit `delete button added` `1c4c9aa953d7b4cf53356dbfcb55e2edc7e20005`
 - check commit `DELETE ALL button added` `7d0a229563cefd127b9275f5b41c620b8b87a219`
+
+**iv. Filter**
+
+- use GET request in dashboard with *query params* (Note query params and requests arr entirely different)
+- to get `/?` with `&` in `http://localhost:8000/` so that we can pass *Query params*
+	- get route
+```
+@app.get("/")
+def dashboard(request: Request, forward_eps=None, forward_pe=None, db: Session = Depends(get_db)): #note db session added
+	""" for homepage i.e dashboard """
+	
+	# get all stocks as dict
+	#stocks = db.query(Stock).all()
+	# instead of selecting all as above, 
+	# we will filter based on query params
+	stocks = db.query(Stock)
+	
+	# filter
+	if forward_pe:
+		stocks = stocks.filter(Stock.forward_pe < forward_pe)
+	if forward_eps:
+		stocks = stocks.filter(Stock.forward_eps < forward_eps)
+	
+	
+	# return the dict stocks
+	context = {
+		"request": request,
+		"stocks": stocks # it will be looped in dashboard.html
+	}
+	
+	return templates.TemplateResponse("dashboard.html", context)
+```
+	- make a form with `form` `name="query-key"` 
+	- and most importantly `<input type="submit" ...>` not `type="button"`
+		```
+		<form> <!--no method or action used-->
+			<input type="text" name="forward_pe"> <!--name coresponds yo key-->
+			<input type="submit" value="click me">
+		</form>
+		```
+		It makes url field
+		```
+		http://localhost:8000/http://localhost:8000/?forward_pe=44&forward_eps=22
+		```
+	- to retain the entered values,
+		- send the querys through `context` and put a `if` condition in text field
+			```
+			context = {
+				...
+				"forward_pe": forward_pe
+			}
+			```
+			```
+			<input type="text" name="forward_pe" placeholder="P/E" {% if forward_pe %} value={{forward_pe}} {% endif %} />
+			or
+			<input type="checkbox" name="ma200" {% if ma200 %} checked {% endif %}> <label> Above 200 day </label>
+			```
+
+- add the code to `dashboard.html` and `main.py`
