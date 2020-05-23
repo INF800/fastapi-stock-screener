@@ -547,6 +547,6 @@ def dashboard(request: Request, forward_eps=None, forward_pe=None, db: Session =
 
 ## HEROKU DEPLOYMENT
 
-- add `python` build packs from heroku settings in website
-- add `gunicorn` to `requirements.txt`
-- crrate `Procfile` with `web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app`
+- add `runtime.txt` with `python-3.8.3` inside (specifis versions avl. in heroku)
+- add `gunicorn==20.0.4` to `requirements.txt`
+- crrate `Procfile` with `web: gunicorn -k uvicorn.workers.UvicornWorker main:app`
