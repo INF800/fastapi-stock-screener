@@ -424,6 +424,7 @@ but uvicorn reloads and db is populated
 - simple form post as in django responseapi didnt work!
 
 **i. POST data through api using feild tobadd into db**
+
 		- using jquery ajax, check commit `post using js, jquery done` `635b8249d6b756142798bf25578397f3f33c5f8a`
 		- using axios, first see ajax command then check commit `post using axios` `ba7db0876a4060dc30178780232342812c5446a0`
 
