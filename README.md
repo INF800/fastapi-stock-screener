@@ -551,6 +551,8 @@ def dashboard(request: Request, forward_eps=None, forward_pe=None, db: Session =
 - add `gunicorn==20.0.4` to `requirements.txt`
 - crrate `Procfile` with `web: gunicorn -k uvicorn.workers.UvicornWorker main:app`
 
+> Add `lxml` to requirements.txt
+
 All set!
 
 
