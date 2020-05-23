@@ -22,7 +22,7 @@ numpy==1.18.4
 pandas==1.0.3
 pydantic==1.5.1
 PyGObject==3.36.0
-python-apt==2.0.0
+python-apt
 python-dateutil==2.8.1
 pytz==2020.1
 requests==2.22.0
