@@ -553,6 +553,8 @@ def dashboard(request: Request, forward_eps=None, forward_pe=None, db: Session =
 
 > heroku isn't working with requirements.txt as expected. Add `pip freeze > "requirements.txt"` and add `gunicorn==20.0.4` in ot as well. Only one long-term solution - use docker! api is compleyely fine yfinance is what causing issues.
 
+> Better try stocks supported by yfinance
+
 All set!
 
 
