@@ -8,12 +8,13 @@
 	<input type="text" id="symbols" placeholder="AAPL, GOOGL, FB">
 	<input type="button" onclick="add_to_db()" value="Add">
 	
-	<br/> <br/> <b>Delete Stocks: </b> <br />
+	<br/> <br/> <b>Remove Stocks: </b> <br />
 	<!-- DELETE Data -->
 	<input type="text" id="delSymbols" placeholder="AAPL, FB">
 	<input type="button" onclick="delete_from_db()" value="Delete">
+	<input type="button" onclick="delete_all()" value="Delete All">
 	
-	<p id="result">separate symbols by comas. <br/>Refresh page after submiting more than once to sre changes</p>
+	<p id="result">separate symbols by comas. <br/>Refresh page after submiting to see changes</p>
 	
 	<script>
 		// ADD TO.DB USING `POST` OPERATION
@@ -62,6 +63,18 @@
 						// console.log(response)
 					})
 			}
+		}
+		
+		function delete_all(){
+			axios
+				.delete('/stock', {
+					data: {
+						symbol: "DELETEALL"
+					}
+				})
+				.then(function(response){
+					// console.log(response)
+				})
 		}
 				
 	</script>

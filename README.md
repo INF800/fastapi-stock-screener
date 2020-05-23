@@ -478,5 +478,6 @@ def delete_stock(stock_req: StockRequest, db: Session = Depends(get_db)):
 ```
 test using `docs` with `{"symbol": "JNJ"}`
 
-- send DELETE request to API just like we did for POST using ajax or axios
-- check commit ``
+- send DELETE request to API just like we did for POST using ajax or axios (i used axios)
+- check commit `delete button added` `1c4c9aa953d7b4cf53356dbfcb55e2edc7e20005`
+- check commit `delete all button added`
