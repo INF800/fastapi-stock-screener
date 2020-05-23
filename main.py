@@ -53,7 +53,7 @@ def fetch_stock_data(pk: int):
 
 
 @app.get("/")
-def home(request: Request, db: Session = Depends(get_db)): #note db session added
+def dashboard(request: Request, db: Session = Depends(get_db)): #note db session added
 	""" for homepage i.e dashboard """
 	
 	# get all stocks as dict

@@ -432,7 +432,7 @@ but uvicorn reloads and db is populated
 *main.py*: (dashboard endpoint)
 ```
 @app.get("/")
-def home(request: Request, db: Session = Depends(get_db)): #note db session added
+def dashboard(request: Request, db: Session = Depends(get_db)): #note db session added
 	
 	# get all stocks as dict
 	stocks = db.query(Stock).all()
