@@ -480,4 +480,4 @@ test using `docs` with `{"symbol": "JNJ"}`
 
 - send DELETE request to API just like we did for POST using ajax or axios (i used axios)
 - check commit `delete button added` `1c4c9aa953d7b4cf53356dbfcb55e2edc7e20005`
-- check commit `delete all button added`
+- check commit `DELETE ALL button added` `7d0a229563cefd127b9275f5b41c620b8b87a219`
