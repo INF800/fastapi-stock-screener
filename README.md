@@ -551,11 +551,12 @@ def dashboard(request: Request, forward_eps=None, forward_pe=None, db: Session =
 - add `gunicorn==20.0.4` to `requirements.txt`
 - crrate `Procfile` with `web: gunicorn -k uvicorn.workers.UvicornWorker main:app`
 
-> heroku isn't working with requirements.txt as expected. Add `pip freeze > "requirements.txt"` and add `gunicorn==20.0.4` in ot as well
+> heroku isn't working with requirements.txt as expected. Add `pip freeze > "requirements.txt"` and add `gunicorn==20.0.4` in ot as well. Only one long-term solution - use docker! api is compleyely fine yfinance is what causing issues.
 
 All set!
 
 
 ## INTERESTING ARTICLE (File arrangement)
 
-https://medium.com/analytics-vidhya/building-a-rest-api-using-python-fastapi-and-heroku-b7e9341f578
+- https://medium.com/analytics-vidhya/building-a-rest-api-using-python-fastapi-and-heroku-b7e9341f578
+- add sessions
