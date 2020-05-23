@@ -82,3 +82,10 @@ def create_stock(stock_req: StockRequest, background_tasks: BackgroundTasks, db:
 	
 	return {"staus": "ok"}
 	
+@app.delete("/stock")
+def delete_stock(stock_req: StockRequest, db: Session = Depends(get_db)):
+	""" deletes stock record of a symbol """
+	
+	stock_to_dlt = db.query(Stock).filter(Stock.symbol==stock_req.symbol).first() 
+	db.delete(stock_to_dlt)
+	db.commit()

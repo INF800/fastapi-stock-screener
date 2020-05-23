@@ -461,3 +461,22 @@ check in dashboard.html using `{{ stocks }}`
 			</tr>
 			{% endfor %}
 ```
+
+**iii. add delete stock button**
+
+- same endpoint can be used
+
+*main.py*:
+```
+@app.delete("/stock") # Note same endpoint can be used!
+def delete_stock(stock_req: StockRequest, db: Session = Depends(get_db)):
+	""" deletes stock record of a symbol """
+	
+	stock_to_dlt = db.query(Stock).filter(Stock.symbol==stock_req.symbol).first() 
+	db.delete(stock_to_dlt)
+	db.commit()
+```
+test using `docs` with `{"symbol": "JNJ"}`
+
+- send DELETE request to API just like we did for POST using ajax or axios
+- check commit ``

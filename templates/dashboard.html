@@ -3,18 +3,22 @@
 {% block content %}
 
 <div>
-	<h3>Enter Stocks</h3>
+	<b>Enter Stocks: </b> <br/>
 	<!-- POST Data -->
-	
 	<input type="text" id="symbols" placeholder="AAPL, GOOGL, FB">
-	<input type="button" onclick="submit_post()" value="submit">
-	<p id="result">separate symbols by comas. <br/>Refresh after submiting more than once</p>
-
+	<input type="button" onclick="add_to_db()" value="Add">
 	
+	<br/> <br/> <b>Delete Stocks: </b> <br />
+	<!-- DELETE Data -->
+	<input type="text" id="delSymbols" placeholder="AAPL, FB">
+	<input type="button" onclick="delete_from_db()" value="Delete">
+	
+	<p id="result">separate symbols by comas. <br/>Refresh page after submiting more than once to sre changes</p>
 	
 	<script>
-	
-		function submit_post(){
+		// ADD TO.DB USING `POST` OPERATION
+		// ---
+		function add_to_db(){
 			symbols_comas = document.getElementById("symbols").value.replace(/\s/g, "")
 			symbols_lst = symbols_comas.split(",")
 			for (let i=0; i<symbols_lst.length; i++){
@@ -31,9 +35,9 @@
       	*/
       	
       	// axios used. same but rich features
-      	axios.post('/stock', {
-    			symbol: symbols_lst[i]
-  				})
+      	axios.post('/stock', { // note: same endpoint can be used as long as http operation is dfft
+    				symbol: symbols_lst[i]
+    			})
   				.then(function (response) {
   					// console.log(response)
     				// document.getElementById('result').innerHTML = response
@@ -41,6 +45,25 @@
 			}
 		}
 		
+		
+		// REMOVE FROM DB USING `DELETE` OPERATION
+		// ----
+		function delete_from_db(){
+			symbols_comas = document.getElementById("delSymbols").value.replace(/\s/g, "")
+			symbols_lst = symbols_comas.split(",")
+			for (let i=0; i<symbols_lst.length; i++){
+				axios
+					.delete('/stock', { // note: same endpoint can be used as long as http OPERATION is different
+						data :{ // `data` is important for `delete`
+							symbol: symbols_lst[i]	
+						}
+					})
+					.then(function(response){
+						// console.log(response)
+					})
+			}
+		}
+				
 	</script>
 </div>
 
