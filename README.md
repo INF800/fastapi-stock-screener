@@ -543,3 +543,9 @@ def dashboard(request: Request, forward_eps=None, forward_pe=None, db: Session =
 
 - add the code to `dashboard.html` and `main.py`
 	- commit `filter done` `0c148e1ae2ea26fcb3e22224e4ad7c207b51802d`
+
+
+## HEROKU DEPLOYMENT
+
+- add `gunicorn` to `requirements.txt`
+- crrate `Procfile` with `web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app`
