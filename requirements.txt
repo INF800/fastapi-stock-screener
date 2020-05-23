@@ -4,7 +4,6 @@ certifi==2019.11.28
 chardet==3.0.4
 click==7.1.2
 Cython==0.29.19
-dbus-python==1.2.16
 distlib==0.3.0
 distro-info
 fastapi==0.54.2
@@ -21,7 +20,6 @@ multitasking==0.0.9
 numpy==1.18.4
 pandas==1.0.3
 pydantic==1.5.1
-PyGObject==3.36.0
 python-dateutil==2.8.1
 pytz==2020.1
 requests==2.22.0
