@@ -5,3 +5,4 @@ yfinance==0.1.54
 sqlalchemy==1.3.17
 gunicorn==20.0.4
 lxml
+html5lib
