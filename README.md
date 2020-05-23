@@ -547,6 +547,6 @@ def dashboard(request: Request, forward_eps=None, forward_pe=None, db: Session =
 
 ## HEROKU DEPLOYMENT
 
-- add `runtime.txt` with `python-3.8.3` inside to tell this is puthon app
+- add `python` build packs from heroku settings in website
 - add `gunicorn` to `requirements.txt`
 - crrate `Procfile` with `web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app`
