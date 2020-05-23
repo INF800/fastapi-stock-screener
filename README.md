@@ -550,3 +550,10 @@ def dashboard(request: Request, forward_eps=None, forward_pe=None, db: Session =
 - add `runtime.txt` with `python-3.8.3` inside (specifis versions avl. in heroku)
 - add `gunicorn==20.0.4` to `requirements.txt`
 - crrate `Procfile` with `web: gunicorn -k uvicorn.workers.UvicornWorker main:app`
+
+All set!
+
+
+## INTERESTING ARTICLE (File arrangement)
+
+https://medium.com/analytics-vidhya/building-a-rest-api-using-python-fastapi-and-heroku-b7e9341f578
