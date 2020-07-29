@@ -1,4 +1,4 @@
-uvicorn==0.11.5
+uvicorn==0.11.7
 fastapi==0.54.2
 Jinja2==2.11.2
 yfinance==0.1.54
